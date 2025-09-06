@@ -74,7 +74,9 @@ mv -f /tmp/site/*/* /tmp/site/* /var/www/html 2>/dev/null || mv -f /tmp/site/* /
 ## Deployment Scripts
 Two deployment scripts were created to automate the hosting of the website during the EC2 instance launch using User Data.
 
-## Task 1: S3 Deployment Script
+# Task 1: S3 Deployment Script
+
+```bash
 #!/bin/bash
 # ==============================
 # Variables
@@ -115,7 +117,8 @@ chmod -R 755 $WEB_DIR
 systemctl restart httpd
 systemctl enable httpd
 
-## ## Task 2: Github Deployment Script
+#Task 2: Github Deployment Script
+
 #!/bin/bash
 
 # Switch to the root user to gain full administrative privileges
