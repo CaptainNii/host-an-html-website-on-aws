@@ -182,4 +182,4 @@ Security best practices were implemented using **IAM roles, security groups, pri
 
 ## 👨‍💻 Author
 
-* **CaptainNii** – Cloud & DevOps Enthusiast
+* **Nii Anyetei Odoi** – Cloud & DevOps Enthusiast
