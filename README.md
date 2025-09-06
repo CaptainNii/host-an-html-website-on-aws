@@ -57,7 +57,7 @@ Two deployment scripts were created and tested with EC2 **User Data**:
 When the website files were stored in S3 as a **zipped project folder** (e.g., `mole/index.html` instead of `index.html`), unzipping on the EC2 instance resulted in an extra subfolder (`/var/www/html/mole`) instead of placing files directly in `/var/www/html`.  
 This caused Apache to still show the default **“It works!”** page because the `index.html` was not located at the web root.  
 
-### Fix:
+### Fix
 A **post-extraction move command** was added to handle both scenarios:  
 
 ```bash
@@ -71,10 +71,9 @@ mv -f /tmp/site/*/* /tmp/site/* /var/www/html 2>/dev/null || mv -f /tmp/site/* /
 
 ---
 
-## Deployment Scripts
-Two deployment scripts were created to automate the hosting of the website during the EC2 instance launch using User Data.
+## 📜 Deployment Scripts
 
-# Task 1: S3 Deployment Script
+### Task 1: S3 Deployment Script
 
 ```bash
 #!/bin/bash
@@ -116,40 +115,42 @@ chmod -R 755 $WEB_DIR
 # Restart and enable Apache
 systemctl restart httpd
 systemctl enable httpd
+```
 
-#Task 2: Github Deployment Script
+---
 
+### Task 2: GitHub Deployment Script
+
+```bash
 #!/bin/bash
 
-# Switch to the root user to gain full administrative privileges
-sudo su
-
-# Update all installed packages to their latest versions
+# Update all installed packages
 yum update -y
 
 # Install Apache HTTP Server
 yum install -y httpd
 
-# Change the current working directory to the Apache web root
+# Install Git
+yum install -y git
+
+# Change to Apache web root
 cd /var/www/html
 
-# Install Git
-yum install git -y
-
-# Clone the project GitHub repository to the current directory
+# Clone the GitHub repository
 git clone https://github.com/CaptainNii/host-an-html-website-on-aws.git
 
-# Copy all files, including hidden ones, from the cloned repository to the Apache web root
+# Copy files into the Apache web root
 cp -R host-an-html-website-on-aws/. /var/www/html/
 
-# Remove the cloned repository directory to clean up unnecessary files
+# Remove the cloned repository
 rm -rf host-an-html-website-on-aws
 
-# Enable the Apache HTTP Server to start automatically at system boot
+# Enable and start Apache
 systemctl enable httpd 
-
-# Start the Apache HTTP Server to serve web content
 systemctl start httpd
+```
+
+---
 
 ## ✅ Acceptance Criteria
 
